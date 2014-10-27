@@ -10,13 +10,16 @@
 int minVol = 267;
 int maxVol = 400;
 int accelData[3];
+int timeStamp = 10;
+int count = 100;
+int testLED = 13;
 //**********************************************************
 //  SETUP LOOP
 //**********************************************************
 
 void setup() {
 Serial.begin(9600);
-  
+pinMode(testLED,OUTPUT);  
 
 }
 //**********************************************************
@@ -25,13 +28,27 @@ Serial.begin(9600);
 void loop() {
 
   readAccel();
+  
+  if (accelData[2]>800){
+    count-=1;
+    
+    if (count< 0){
+      count = 0;
+      digitalWrite(testLED,HIGH);
+      
+    }
+  }
+  else{
+    count = 100;
+    digitalWrite(testLED,LOW);
+  }
+  
   Serial.print(accelData[0]);
    Serial.print(",");
   Serial.print(accelData[1]);
    Serial.print(",");
   Serial.println(accelData[2]);
-  delay(10);
-    
+  delay(timeStamp);
   
   
 }
